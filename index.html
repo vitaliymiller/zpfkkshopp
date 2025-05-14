@@ -6,8 +6,8 @@
     <title>Магазин "shopmiller"</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Підключення WebApp -->
-    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Arial', sans-serif; background-color: #f8f9fa; }
@@ -67,15 +67,30 @@
     </footer>
 
     <script>
-    function sendOrder(productId, productName, price) {
-    let orderData = { id: productId, name: productName, price: price };
+        function sendOrder(productId, productName, price) {
+            const orderData = {
+                id: productId,
+                name: productName,
+                price: price
+            };
 
-    console.log("🔼 Надсилаємо дані в бот:", orderData);
+            console.log("📦 Надсилаємо дані:", orderData);
 
-    Telegram.WebApp.sendData(JSON.stringify(orderData)); // Надсилаємо дані
-
-    // Telegram.WebApp.close(); ❌ Прибрати
-}
-
-</script>
-
+            fetch("http://localhost:5000/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("✅ Замовлення оформлено!");
+                Telegram.WebApp.close();
+            })
+            .catch(err => {
+                console.error("❌ Помилка:", err);
+                alert("🚫 Помилка оформлення");
+            });
+        }
+    </script>
+</body>
+</html>
