@@ -59,12 +59,19 @@
       padding: 0 1rem;
     }
 
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      padding: 1rem;
-    }
+   .products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 товари в ряд */
+  gap: 2rem;
+  padding: 1rem;
+}
+
+@media (max-width: 900px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* автоматична адаптація на телефоні */
+  }
+}
+
 
     .product-card {
       background: #ffffff;
